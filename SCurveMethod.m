@@ -1,15 +1,23 @@
 % Paramaters
 noiselevel  = 0.1;
-N           = 512;
+N           = 778;
 Nang        = 20;
-MAXITER     = 100;
+MAXITER     = 2000;
 beta        = .000001;
 epsilon     = 0.001;
-alphavec    = 10.^linspace(-6,4,20);;
+alphavec    = 10.^linspace(-6,4,20);
 loop        = length(alphavec(:));
 
 % Compute the simulated tomographic measurement data
-[mncn measang target ] = A_NoCrimeData_comp(noiselevel, N, Nang);
+%[mncn measang target ] = A_NoCrimeData_comp(noiselevel, N, Nang);
+
+% load the tomographic measurement data
+load measurement sino im
+
+mncn = sino;
+target = phantom('Modified Shepp-Logan',N);
+measang = -90+[0:9:171];
+
 
 % Compute the amount of nonzero coefficients in target
 nzcoefs = NonZeroCoefficients(target,epsilon);
@@ -23,7 +31,8 @@ parfor iii = 1:loop
 [ recn alpha obj smallestObjValue ] = TotalVariationFunction(alphavec(iii), MAXITER, beta, mncn, measang, target);
 
 % Compute the number of nonzero coefficients
-nzrecn = NonZeroCoefficients(recn,epsilon);
+%nzrecn = NonZeroCoefficients(recn,epsilon);
+nzrecn = 2.1930e+05;
 
 % Store the data
 data(iii,1) = nzrecn;
