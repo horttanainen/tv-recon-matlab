@@ -16,7 +16,7 @@ mncn = sino;
 mncn = mncn.';
 %mncn = mncn(:);
 target = phantom('Modified Shepp-Logan',N);
-measang = -90+[0:9:171];
+measang = -90+[0:9:171]; % Maybe this should be modified to 0:9:170 or 0:9:179 ??
 
 % Compute the amount of nonzero coefficients in target
 nzcoefs = NonZeroCoefficients(target,epsilon);
