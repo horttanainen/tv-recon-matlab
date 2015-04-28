@@ -1,7 +1,5 @@
 % Paramaters
-noiselevel  = 0.1;
 N           = 778;
-Nang        = 20;
 MAXITER     = 2000;
 beta        = .000001;
 epsilon     = 0.001;
@@ -15,9 +13,10 @@ loop        = length(alphavec(:));
 load measurement sino im
 
 mncn = sino;
+mncn = mncn.';
+%mncn = mncn(:);
 target = phantom('Modified Shepp-Logan',N);
 measang = -90+[0:9:171];
-
 
 % Compute the amount of nonzero coefficients in target
 nzcoefs = NonZeroCoefficients(target,epsilon);

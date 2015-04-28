@@ -1,4 +1,4 @@
-function [ slice ] = reconstructslice2(fnam_fp, ftype, n, cor, range, row, I0_b, I0_e)
+function [ slice centeredsino2 ] = reconstructslice2(fnam_fp, ftype, n, cor, range, row, I0_b, I0_e)
 %RECONSTRUCTSLICE2 Reconstruct CT slice from projection data, images shown
 %
 %   A = reconstructslice(fnam_firstpart, ftype, n, cor, range, row, I_0_begin, I_0_end)
@@ -54,9 +54,11 @@ centeredsino = sino(:, (cor-range):(cor+range));
 figure('Name', 'Truncated and centered sinogram');
 imshow(centeredsino, []);
 
+centeredsino2 = centeredsino;
+
 % Compute CT reconstruction of slice
 %slice = ifanbeam(centeredsino', DssInPixels, 'FanSensorGeometry', 'line');
-slice = iradon(centeredsino', 0:1:179);
+slice = iradon(centeredsino', 0:9:179);
 
 % Adjust CT slice for better visualization
 slicevis = slice - min(slice(:));
