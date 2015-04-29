@@ -61,7 +61,7 @@ obj(its+1) = OFf;
 
 % Keep record of the smallest obj value so the iteration doestn stop at a
 % spike
-smallestObjValue    = obj(1);
+smallestObjValue    = 999999999999;
 recnAtTheSmall      = fnew;
 
 % Barzilai and Borwein iterative minimization routine
@@ -83,9 +83,11 @@ while (its  < MAXITER)
     format short e
     % Monitor the run
     disp(['Iteration ', num2str(its,'%4d'),', objective function value ',num2str(obj(its),'%.3e')])
-    smallestObjValue    = min(smallestObjValue,OFf);
-    if smallestObjValue == OFf
-        recnAtTheSmall      = fnew;
+    if its>MAXITER/3
+        smallestObjValue    = min(smallestObjValue,OFf);
+        if smallestObjValue == OFf
+            recnAtTheSmall      = fnew;
+        end
     end
 end   % Iteration while-loop
 recn = recnAtTheSmall;

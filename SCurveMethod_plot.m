@@ -10,17 +10,14 @@ thickline = 2;
 % Load reconstruction
 load SCurveMethod interpolation recn target obj alpha nzcoefs
 
-% Compute relative errors
-err_squ = norm(target(:)-recn(:))/norm(target(:));
-
 % Plot reconstruction image
 figure(1)
 clf
-imagesc([target,recn],[0,1])
+imagesc(recn)
 colormap gray
 axis equal
 axis off
-title(['Approximate TV: error ', num2str(round(err_squ*100)), '%'])
+title(['Approximate TV'])
 
 % Plot profile of reconstruction
 figure(2)
@@ -33,7 +30,7 @@ axis square
 box off
 title('Profile of approximate TV reconstruction')
 
-% Plot evolution of oblective function
+% Plot evolution of objective function
 figure(3)
 clf
 semilogy(obj,'*-')

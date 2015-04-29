@@ -1,54 +1,64 @@
 % Paramaters
-N           = 778;
-MAXITER     = 2000;
+N           = 780;
+MAXITER     = 20;
 beta        = .000001;
 epsilon     = 0.001;
-alphavec    = 10.^linspace(-6,4,20);
+alphas      = 20;
+alphavec    = 14.^linspace(-6,4,alphas);
 loop        = length(alphavec(:));
 
 % Compute the simulated tomographic measurement data
 %[mncn measang target ] = A_NoCrimeData_comp(noiselevel, N, Nang);
 
-% load the tomographic measurement data
+% load the tomographic measurement data and images of sawn walnuts
 load measurement sino im
+nut1 = imread('pahkina_1.tif');
+nut1 = nut1(:,:,1);
+nut2 = imread('pahkina_2.tif');
+nut2 = nut2(:,:,1);
 
+% fbp is the filtered back projection of the original nut provided by
+% Alexander Meaney.
+fbp = im;
+
+target = nut1(2:end-1,2:end-1);
 mncn = sino;
 mncn = mncn.';
-%mncn = mncn(:);
-target = phantom('Modified Shepp-Logan',N);
 measang = -90+[0:9:171]; % Maybe this should be modified to 0:9:170 or 0:9:179 ??
 
-% Compute the amount of nonzero coefficients in target
-nzcoefs = NonZeroCoefficients(target,epsilon);
+% Compute the average of nonzero coefficients in sawn walnuts
+nzcoefs1 = NonZeroCoefficients(nut1,epsilon);
+nzcoefs2 = NonZeroCoefficients(nut2,epsilon);
+nzcoefs  = (nzcoefs1+nzcoefs2)/2;
 
 % Matrix to store data from loop
-data = [loop,1];
+data = linspace(1,loop,loop);
 
-parfor iii = 1:loop
+for iii = 1:loop
 
 % Compute the Total Variation regularization of mncn with current alpha
 [ recn alpha obj smallestObjValue ] = TotalVariationFunction(alphavec(iii), MAXITER, beta, mncn, measang, target);
 
-% Compute the number of nonzero coefficients
-%nzrecn = NonZeroCoefficients(recn,epsilon);
-nzrecn = 2.1930e+05;
+% Compute the average number of nonzero coefficients from the sawn walnuts. 
+nzrecn = NonZeroCoefficients(recn,epsilon);
 
 % Store the data
-data(iii,1) = nzrecn;
+data(iii) = nzrecn;
 
 end
 
 % Interpolate the data
-querypoints = 10.^linspace(-6,4,400);
-interpolation = interp1(alphavec,data(:,1),querypoints,'spline');
+querypoints         = 14.^linspace(-6,4,400);
+interpolation       = interp1(alphavec,data,querypoints,'spline');
+interpolationAlpha  = interp1(alphavec, alphavec,querypoints,'spline');
 
 % Optimal alpha
 tmp = abs(interpolation-nzcoefs);
-[index index] = min(tmp);
-alpha = interpolation(index);
+[value index] = min(tmp);
+alpha = interpolationAlpha(index);
 
 % Last reconstruction
 [ recn alpha obj smallestObjValue ] = TotalVariationFunction(alpha, MAXITER, beta, mncn, measang, target);
 
-save SCurveMethod interpolation recn target obj alpha nzcoefs smallestObjValue
+save SCurveMethod fbp interpolation interpolationAlpha recn target obj alpha nzcoefs smallestObjValue
 exit
