@@ -1,6 +1,6 @@
 % Paramaters
 N           = 778;
-MAXITER     = 2000;
+MAXITER     = 1000;
 beta        = .000001;
 epsilon     = 0.001;
 alphavec    = 10.^linspace(-6,4,20);
@@ -19,7 +19,8 @@ target = phantom('Modified Shepp-Logan',N);
 measang = -90+[0:9:171]; % Maybe this should be modified to 0:9:170 or 0:9:179 ??
 
 % Compute the amount of nonzero coefficients in target
-nzcoefs = NonZeroCoefficients(target,epsilon);
+%nzcoefs = NonZeroCoefficients(target,epsilon);
+nzcoefs = 2.1930e+05;
 
 % Matrix to store data from loop
 data = [loop,1];
@@ -30,8 +31,7 @@ parfor iii = 1:loop
 [ recn alpha obj smallestObjValue ] = TotalVariationFunction(alphavec(iii), MAXITER, beta, mncn, measang, target);
 
 % Compute the number of nonzero coefficients
-%nzrecn = NonZeroCoefficients(recn,epsilon);
-nzrecn = 2.1930e+05;
+nzrecn = NonZeroCoefficients(recn,epsilon);
 
 % Store the data
 data(iii,1) = nzrecn;
