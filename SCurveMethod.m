@@ -1,6 +1,11 @@
 % Paramaters
+<<<<<<< HEAD
 N           = 780;
 MAXITER     = 20;
+=======
+N           = 778;
+MAXITER     = 1000;
+>>>>>>> b4551607899e00d46418ac287671d6a2f7911610
 beta        = .000001;
 epsilon     = 0.001;
 alphas      = 20;
@@ -26,10 +31,16 @@ mncn = sino;
 mncn = mncn.';
 measang = -90+[0:9:171]; % Maybe this should be modified to 0:9:170 or 0:9:179 ??
 
+<<<<<<< HEAD
 % Compute the average of nonzero coefficients in sawn walnuts
 nzcoefs1 = NonZeroCoefficients(nut1,epsilon);
 nzcoefs2 = NonZeroCoefficients(nut2,epsilon);
 nzcoefs  = (nzcoefs1+nzcoefs2)/2;
+=======
+% Compute the amount of nonzero coefficients in target
+%nzcoefs = NonZeroCoefficients(target,epsilon);
+nzcoefs = 2.1930e+05;
+>>>>>>> b4551607899e00d46418ac287671d6a2f7911610
 
 % Matrix to store data from loop
 data = linspace(1,loop,loop);
@@ -39,7 +50,11 @@ for iii = 1:loop
 % Compute the Total Variation regularization of mncn with current alpha
 [ recn alpha obj smallestObjValue ] = TotalVariationFunction(alphavec(iii), MAXITER, beta, mncn, measang, target);
 
+<<<<<<< HEAD
 % Compute the average number of nonzero coefficients from the sawn walnuts. 
+=======
+% Compute the number of nonzero coefficients
+>>>>>>> b4551607899e00d46418ac287671d6a2f7911610
 nzrecn = NonZeroCoefficients(recn,epsilon);
 
 % Store the data
