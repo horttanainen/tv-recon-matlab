@@ -1,6 +1,6 @@
 % Paramaters
 N           = 780;
-MAXITER     = 20;
+MAXITER     = 2000;
 beta        = .000001;
 epsilon     = 0.001;
 alphas      = 20;
@@ -34,7 +34,7 @@ nzcoefs  = (nzcoefs1+nzcoefs2)/2;
 % Matrix to store data from loop
 data = linspace(1,loop,loop);
 
-for iii = 1:loop
+parfor iii = 1:loop
 
 % Compute the Total Variation regularization of mncn with current alpha
 [ recn alpha obj smallestObjValue ] = TotalVariationFunction(alphavec(iii), MAXITER, beta, mncn, measang, target);
