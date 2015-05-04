@@ -4,7 +4,7 @@ MAXITER     = 2000;
 beta        = .000001;
 epsilon     = 0.001;
 alphas      = 20;
-alphavec    = 14.^linspace(-6,4,alphas);
+alphavec    = linspace(0,2,alphas);
 loop        = length(alphavec(:));
 
 % Compute the simulated tomographic measurement data
