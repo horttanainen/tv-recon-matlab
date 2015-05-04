@@ -15,8 +15,6 @@ function [ recn alpha obj smallestObjValue ] = TotalVariationFunction( alpha, MA
 %
 % Jennifer Mueller and Samuli Siltanen, March 2014
 
-% linesearch ja iteraatiossa korjaus jotta ei pysähdyttäisi piikkiin!
-
 [N,tmp] = size(target);
 
 % Incomprehensible correction factor. It is related to the way Matlab
@@ -35,6 +33,9 @@ obj(1) = XR_aTV_feval(fold,mncn,measang,alpha,beta);
 % We use a simple line search method to compute a steplength so the new
 % value is smaller than the initial guess.
 t = .0001;
+
+% Linesearch to find the largest step lentgh in the right direction. If
+% suitable step is not found .0001 is used.
 tvec = (10).^linspace(-1,-6);
 
 for zzz = 1:length(tvec)
@@ -59,7 +60,7 @@ its = 1;
 OFf        = XR_aTV_feval(fnew,mncn,measang,alpha,beta);
 obj(its+1) = OFf;
 
-% Keep record of the smallest obj value so the iteration doestn stop at a
+% Keep record of the smallest obj value so the iteration doesnt stop at a
 % spike
 smallestObjValue    = 999999999999;
 recnAtTheSmall      = fnew;

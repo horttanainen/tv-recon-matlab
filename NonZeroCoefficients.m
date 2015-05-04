@@ -1,5 +1,5 @@
 function [ nonzeroCoefficients ] = NonZeroCoefficients( target, epsilon )
-%NONZEROCOEFFICIENTS Computes the number of nonzero coefficients of a
+%NONZEROCOEFFICIENTS Computes the number of nonzero coefficients of the
 %fourier transform of the target.
 
 % Fast fourier transform
